@@ -8,3 +8,4 @@
 * Watched Postgres/DynamoDB video. Installed postgres client. Created Postgres and DynamoDB instances, was able to query.
 * Added .gitignore to ignore Docker files.
 * Added postgres and docker extensions to gitpod.yml
+* Watched pricing video, turned off cloudtrail
