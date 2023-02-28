@@ -9,3 +9,4 @@
 * Added .gitignore to ignore Docker files.
 * Added postgres and docker extensions to gitpod.yml
 * Watched pricing video, turned off cloudtrail
+* Watched docker security video
