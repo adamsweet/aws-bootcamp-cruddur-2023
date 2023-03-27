@@ -27,8 +27,8 @@ from opentelemetry.sdk.trace.export import BatchSpanProcessor
 from opentelemetry.sdk.trace.export import ConsoleSpanExporter, SimpleSpanProcessor
 
 # X-Ray
-from aws_xray_sdk.core import xray_recorder
-from aws_xray_sdk.ext.flask.middleware import XRayMiddleware
+#from aws_xray_sdk.core import xray_recorder
+#from aws_xray_sdk.ext.flask.middleware import XRayMiddleware
 
 # Cloudwatch
 import watchtower
@@ -49,6 +49,7 @@ from flask import got_request_exception
 # LOGGER.addHandler(cw_handler)
 # LOGGER.info("test log")
 
+# HoneyComb
 # Initialize tracing and an exporter that can send data to Honeycomb
 provider = TracerProvider()
 processor = BatchSpanProcessor(OTLPSpanExporter())
@@ -59,6 +60,7 @@ provider.add_span_processor(processor)
 #xray_recorder.configure(service='backend-flask', dynamic_naming=xray_url)
 
 # OTEL
+# Show this in the logs within the backend-flask app (STDOUT)
 #simple_processor = SimpleSpanProcessor(ConsoleSpanExporter())
 #provider.add_span_processor(simple_processor)
 
@@ -76,7 +78,8 @@ cognito_jwt_token = CognitoJwtToken(
 # X-Ray
 #XRayMiddleware(app, xray_recorder)
 
-# Honeycomb OTEL
+# HoneyComb OTEL
+# Initialize automatic instrumentation with Flask
 FlaskInstrumentor().instrument_app(app)
 RequestsInstrumentor().instrument()
 
@@ -201,7 +204,7 @@ def data_search():
 @app.route("/api/activities", methods=['POST','OPTIONS'])
 @cross_origin()
 def data_activities():
-  user_handle  = 'andrewbrown'
+  user_handle = request.json["user_handle"]
   message = request.json['message']
   ttl = request.json['ttl']
   model = CreateActivity.run(message, user_handle, ttl)
